@@ -8,8 +8,8 @@ django = "*"
 autopep8 = "*"
 pylint = "*"
 djangorestframework = "*"
-django-cors-headers = "*"
 pylint-django = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
