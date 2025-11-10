@@ -1,0 +1,22 @@
+Table User {
+    id int [pk, increment]
+    
+}
+
+Table Ingredient {
+    id int [pk, increment]
+    name varchar
+}
+
+Table Recipe {
+    id int [pk, increment]
+    name varchar
+    description varchar
+    user_id int [ref: > User.id]
+}
+
+Table RecipeIngredients {
+    id int [pk, increment]
+    ingredient_id int [ref: > Ingredient.id]
+    recipe_id int [ref: > Recipe.id]
+}
