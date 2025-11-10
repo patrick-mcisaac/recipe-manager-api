@@ -1,0 +1,44 @@
+[
+	{
+		"model": "recipe.Ingredient",
+		"pk": 1,
+		"fields": {
+			"name": "Tomato"
+		}
+	},
+	{
+		"model": "recipe.Ingredient",
+		"pk": 2,
+		"fields": {
+			"name": "Flour"
+		}
+	},
+	{
+		"model": "recipe.Ingredient",
+		"pk": 3,
+		"fields": {
+			"name": "Cheese"
+		}
+	},
+	{
+		"model": "recipe.Ingredient",
+		"pk": 4,
+		"fields": {
+			"name": "Chicken Breast"
+		}
+	},
+	{
+		"model": "recipe.Ingredient",
+		"pk": 5,
+		"fields": {
+			"name": "Broccoli"
+		}
+	},
+	{
+		"model": "recipe.Ingredient",
+		"pk": 6,
+		"fields": {
+			"name": "Garlic"
+		}
+	}
+]

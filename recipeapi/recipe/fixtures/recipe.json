@@ -1,0 +1,26 @@
+[
+	{
+		"model": "recipe.Recipe",
+		"pk": 1,
+		"fields": {
+			"name": "Classic Margherita Pizza",
+			"description": "A simple and delicious pizza.",
+			"instructions": "1. Prepare pizza dough using Flour. 2. Spread Tomato sauce evenly over the dough. 3. Top with fresh Cheese. 4. Bake at 450°F (230°C) for 10-15 minutes until crust is golden.",
+			"user": 1,
+			"ingredients": [1, 2, 3],
+			"favorites": []
+		}
+	},
+	{
+		"model": "recipe.Recipe",
+		"pk": 2,
+		"fields": {
+			"name": "Quick Chicken Stir Fry",
+			"description": "A healthy and fast weeknight meal.",
+			"instructions": "1. Cut Chicken Breast into bite-sized pieces. 2. Mince the Garlic. 3. Chop Broccoli florets. 4. Heat oil in a wok or large pan. 5. Stir fry chicken until cooked through. 6. Add garlic and broccoli, cooking until broccoli is tender-crisp. 7. Serve immediately.",
+			"user": 1,
+			"ingredients": [4, 5, 6],
+			"favorites": [1]
+		}
+	}
+]

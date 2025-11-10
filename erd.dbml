@@ -20,3 +20,9 @@ Table RecipeIngredients {
     ingredient_id int [ref: > Ingredient.id]
     recipe_id int [ref: > Recipe.id]
 }
+
+Table UserFavorite {
+    id int [pk, increment]
+    user_id int [ref: > User.id]
+    recipe_id int [ref: > Recipe.id]
+}
