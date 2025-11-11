@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -8,7 +9,13 @@ from .ingredients import IngredientSerializer
 
 class RecipeViewSet(ViewSet):
     def list(self, request):
+
+        favorites = request.query_params.get("favorite", None)
         recipes = Recipe.objects.all()
+        if favorites is not None and favorites == "true":
+            user = request.user
+            recipes = recipes.filter(favorites=user)
+
         serialized = RecipeSerializer(recipes, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
 
