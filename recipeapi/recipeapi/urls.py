@@ -19,9 +19,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from recipe.views import RecipeViewSet, IngredientViewSet
+from recipe.auth import login_user, register_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"recipes", RecipeViewSet, "recipe")
 router.register(r"ingredients", IngredientViewSet, "ingredient")
 
-urlpatterns = [path("admin/", admin.site.urls), path("", include(router.urls))]
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include(router.urls)),
+    path("login", login_user),
+    path("register", register_user),
+]
