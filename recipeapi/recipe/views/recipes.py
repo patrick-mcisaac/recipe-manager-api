@@ -46,6 +46,24 @@ class RecipeViewSet(ViewSet):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             except Recipe.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            recipe = Recipe.objects.get(pk=pk)
+            serializer = UpdateRecipeSerializer(recipe, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                ingredients_array = []
+                for ingredient in request.data.get("ingredients"):
+                    ingredients_array.append(ingredient["id"])
+                recipe.ingredients.set(ingredients_array)
+                serializer = RecipeSerializer(
+                    recipe, many=False, context={"request": request}
+                )
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as ex:
+            return Response(ex, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request):
         """create a new recipe"""
@@ -80,13 +98,21 @@ class UserRecipeSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
 
-    user = UserRecipeSerializer()
+    user = UserRecipeSerializer(read_only=True)
     ingredients = IngredientSerializer(many=True)
     is_favorite = serializers.SerializerMethodField()
+    is_owner = serializers.SerializerMethodField()
 
     def get_is_favorite(self, obj):
         user = self.context["request"].user
         if obj.favorites.filter(pk=user.id).exists():
+            return True
+        else:
+            return False
+
+    def get_is_owner(self, obj):
+        user = self.context["request"].user
+        if obj.user == user:
             return True
         else:
             return False
@@ -102,4 +128,16 @@ class RecipeSerializer(serializers.ModelSerializer):
             "ingredients",
             "favorites",
             "is_favorite",
+            "is_owner",
+        ]
+
+
+class UpdateRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = [
+            "id",
+            "name",
+            "description",
+            "instructions",
         ]

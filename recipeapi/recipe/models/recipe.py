@@ -10,4 +10,4 @@ class Recipe(models.Model):
     instructions = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
     ingredients = models.ManyToManyField(Ingredient)
-    favorites = models.ManyToManyField(User)
+    favorites = models.ManyToManyField(User, blank=True)
