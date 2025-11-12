@@ -1,4 +1,3 @@
-from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -9,7 +8,7 @@ from .ingredients import IngredientSerializer
 
 class RecipeViewSet(ViewSet):
     def list(self, request):
-
+        """get request for all recipes"""
         favorites = request.query_params.get("favorite", None)
         recipes = Recipe.objects.all()
         if favorites is not None and favorites == "true":
@@ -20,6 +19,7 @@ class RecipeViewSet(ViewSet):
         return Response(serialized.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
+        """get request for single recipe"""
         try:
             recipe = Recipe.objects.get(pk=pk)
             serialized = RecipeSerializer(
@@ -30,6 +30,7 @@ class RecipeViewSet(ViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk=None):
+        """update an existing recipe"""
         favorite = request.query_params.get("favorite", None)
         if favorite is not None and favorite == "true":
             try:
@@ -45,6 +46,29 @@ class RecipeViewSet(ViewSet):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             except Recipe.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def create(self, request):
+        """create a new recipe"""
+        try:
+            user = request.user
+            ingredients = request.data.get("ingredients", [])
+            ingredient_list = []
+            for i in ingredients:
+                ingredient_list.append(i["id"])
+
+            ingredient_list = list(set(ingredient_list))
+            recipe = Recipe.objects.create(
+                name=request.data.get("name"),
+                description=request.data.get("description"),
+                instructions=request.data.get("instructions"),
+                user=user,
+            )
+
+            recipe.ingredients.set(ingredient_list)
+            return Response(status=status.HTTP_201_CREATED)
+
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserRecipeSerializer(serializers.ModelSerializer):

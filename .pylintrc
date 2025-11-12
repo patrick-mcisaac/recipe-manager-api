@@ -5,4 +5,8 @@
   disable=broad-except,imported-auth-user,missing-class-docstring,no-self-use,abstract-method
 
 [MASTER]
+  load-plugins=pylint_django
   disable=C0114,
+
+[TYPECHECK]
+  generated-members=objects,DoesNotExist,id,pk,_meta
