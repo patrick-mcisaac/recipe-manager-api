@@ -11,6 +11,7 @@ djangorestframework = "*"
 pylint-django = "*"
 django-cors-headers = "*"
 pillow = "*"
+django-cleanup = "*"
 
 [dev-packages]
 

@@ -91,6 +91,19 @@ class RecipeViewSet(ViewSet):
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def destroy(self, request, pk=None):
+        """Delete a recipe"""
+        try:
+            recipe = Recipe.objects.get(pk=pk)
+            user = request.user
+            if user == recipe.user:
+                recipe.delete()
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(None, status=status.HTTP_403_FORBIDDEN)
+        except Recipe.DoesNotExist:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+
 
 class UserRecipeSerializer(serializers.ModelSerializer):
 
