@@ -4,6 +4,7 @@ from rest_framework import serializers, status
 from recipe.models import Recipe
 from django.contrib.auth.models import User
 from .ingredients import IngredientSerializer
+import json
 
 
 class RecipeViewSet(ViewSet):
@@ -69,7 +70,8 @@ class RecipeViewSet(ViewSet):
         """create a new recipe"""
         try:
             user = request.user
-            ingredients = request.data.get("ingredients", [])
+            ingredients_json = request.POST.get("ingredients")
+            ingredients = json.loads(ingredients_json) if ingredients_json else []
             ingredient_list = []
             for i in ingredients:
                 ingredient_list.append(i["id"])
@@ -80,6 +82,7 @@ class RecipeViewSet(ViewSet):
                 description=request.data.get("description"),
                 instructions=request.data.get("instructions"),
                 user=user,
+                image=request.FILES.get("image"),
             )
 
             recipe.ingredients.set(ingredient_list)
@@ -129,6 +132,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             "favorites",
             "is_favorite",
             "is_owner",
+            "image",
         ]
 
 

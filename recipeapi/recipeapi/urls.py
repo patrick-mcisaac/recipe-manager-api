@@ -20,6 +20,8 @@ from django.urls import path, include
 from rest_framework import routers
 from recipe.views import RecipeViewSet, IngredientViewSet
 from recipe.auth import login_user, register_user
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"recipes", RecipeViewSet, "recipe")
@@ -30,4 +32,4 @@ urlpatterns = [
     path("", include(router.urls)),
     path("login", login_user),
     path("register", register_user),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

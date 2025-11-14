@@ -11,3 +11,4 @@ class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
     ingredients = models.ManyToManyField(Ingredient)
     favorites = models.ManyToManyField(User, blank=True)
+    image = models.ImageField(upload_to="images/", blank=True, null=True)
