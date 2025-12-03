@@ -53,7 +53,8 @@ class RecipeViewSet(ViewSet):
             if serializer.is_valid():
                 serializer.save()
                 ingredients_array = []
-                for ingredient in request.data.get("ingredients"):
+                ingredients = json.loads(request.data.get('ingredients'))
+                for ingredient in ingredients:
                     ingredients_array.append(ingredient["id"])
                 recipe.ingredients.set(ingredients_array)
                 serializer = RecipeSerializer(
@@ -64,7 +65,7 @@ class RecipeViewSet(ViewSet):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as ex:
-            return Response(ex, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': str(ex)}, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request):
         """create a new recipe"""
